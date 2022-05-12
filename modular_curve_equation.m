@@ -36,17 +36,46 @@ X121 := Curve(P, I);
 
 
 
-
-
-
-// Equation for X0+(121)
+// Equation for X0(121) using Basis function
+P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
 N := 121;
 M := ModularForms(Gamma0(N), 2);
 S := CuspidalSubspace(M);
 basis := Basis(S);
+prec := 100;
+basis_sq := [];
+vars_sq := [];
+for i in [1..6] do
+	for j in [1..6] do
+		fij := basis[i] * basis[j];
+		varij := P.i * P.j;
+		if fij notin basis_sq then
+			Append(~basis_sq, fij);
+			Append(~vars_sq, varij);
+		end if;
+	end for;
+end for;
+
+
+W := [];
+for f in basis_sq do
+	qcoefs := [Coefficient(f, i) : i in [0..prec]];
+	Append(~W, qcoefs);
+end for;
+W := Matrix(W);
+I := [];
+for v in Basis(Nullspace(W)) do
+	poly := &+[v[i] * vars_sq[i] : i in [1..#vars_sq]];
+	Append(~I, poly);
+end for;
+X121 := Curve(P, I);
+
+
+
+// Equation for X0+(121)
 A121 := AtkinLehnerOperator(S, 121);
-I := ScalarMatrix(Dimension(S), 1);
-B := A121 - I;
+Id := ScalarMatrix(Dimension(S), 1);
+B := A121 - Id;
 Eigenvecs := Basis(Nullspace(B));
 prec := 100;
 vf1 := Eigenvecs[1]*A121;
@@ -69,9 +98,43 @@ end for;
 W := Matrix(coefX);
 poly_coef := Solution(W, coefY);
 _<x> := PolynomialRing(Rationals());
-X0p := HyperellipticCurve(&+[x^i * poly_coef[i+1] : i in [0..6]]);
+f := &+[x^i * poly_coef[i+1] : i in [0..6]];
+X0p := HyperellipticCurve(f);
 J0p := Jacobian(X0p);
 
+
+// The map X0(121) -> X0+(121)
+Xdenom := &+[vf2[i] * P.i : i in [1..6]];
+R := Parent(Xdenom);
+RI := R/ideal<R | I>;
+Ynum := Y * f2^3;
+basis_cub := [];
+vars_cub := [];
+for i in [1..6] do
+        for j in [1..6] do
+		for k in [1..6] do
+	                fijk := basis[i] * basis[j] * basis[k];
+        	        varijk := P.i * P.j * P.k;
+                	if fijk notin basis_cub then
+                        	Append(~basis_cub, fijk);
+                        	Append(~vars_cub, varijk);
+                	end if;
+		end for;
+        end for;
+end for;
+
+W := [];
+for f in basis_cub do
+        qcoefs := [Coefficient(f, i) : i in [0..coef_bound]];
+        Append(~W, qcoefs);
+end for;
+W := Matrix(W);
+coefYnum := Vector(Integers(), [Coefficient(Ynum, i) : i in [0..coef_bound]]);
+Ynum_coef := Solution(W, coefYnum);
+Ynum_var := &+[Ynum_coef[i] * vars_cub[i] : i in [1..Degree(Ynum_coef)]];
+Xmap := &+[vf1[i] * P.i : i in [1..6]] / &+[vf2[i] * P.i : i in [1..6]];
+Ymap := Ynum_var / (&+[vf2[i] * P.i : i in [1..6]])^3;
+Ymap := R!(RI!Numerator(Ymap)) / Denominator(Ymap);
 
 
 
