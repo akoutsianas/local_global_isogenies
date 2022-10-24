@@ -10,7 +10,7 @@ H_N := sub<GL(2,Integers(N)) | gens>;
 H := PSL2Subgroup(H_N);
 M := ModularSymbols(H, 2, Rationals(), 0);
 S := CuspidalSubspace(M);
-XD10_not_reduced<[x]>, fs := ModularCurve(H);
+XD10nred<[x]>, basisD10 := ModularCurve(H);
 //AssignNames(~XD10_not_reduced, ["x", "y", "z", "u", "v", "w"]);
 
 
@@ -21,8 +21,11 @@ u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 6*u^2 + 12*u*v + 12*v^2 + 187*w*x + 22*x^2 + 55*w*y - 44*x*y - 154*y^2 + 66*w*z + 77*x*z  + 121*y*z,
 - 9*v^2 + 88*w^2- 11*w*x -99*x^2 - 77*w*y + 110*x*y - 11*y^2 + 77*w*z - 297*x*z  + 121*y*z,
 - 6*u^2 - 12*u*v - 12*v^2 + 33*w^2 - 77*w*x + 66*x^2 - 121*w*y - 132*x*y - 110*y^2 - 44*w*z - 187*x*z + 121*y*z  + 121*z^2];
-//XD10 := Curve(P, I);
-//isom, XD10toXD10_not_reduced := IsIsomorphic(XD10, XD10_not_reduced);
+XD10 := Curve(P, I);
+isom, XD10ToXD10nred := IsIsomorphic(XD10, XD10nred);
+// assert isom;
+
+
 
 
 // Equation for modular curve X0(121) by Galbraith's thesis
@@ -41,13 +44,13 @@ P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
 N := 121;
 M := ModularForms(Gamma0(N), 2);
 S := CuspidalSubspace(M);
-basis := Basis(S);
+basis121 := Basis(S);
 prec := 100;
 basis_sq := [];
 vars_sq := [];
 for i in [1..6] do
 	for j in [1..6] do
-		fij := basis[i] * basis[j];
+		fij := basis121[i] * basis121[j];
 		varij := P.i * P.j;
 		if fij notin basis_sq then
 			Append(~basis_sq, fij);
@@ -69,7 +72,9 @@ for v in Basis(Nullspace(W)) do
 	Append(~I, poly);
 end for;
 X121 := Curve(P, I);
-isom, X121toX121_Galbraith := IsIsomorphic(X121, X121_Galbraith);
+// isom, X121toX121_Galbraith := IsIsomorphic(X121, X121_Galbraith);
+// assert isom;
+
 
 
 // Equation for X0+(121)
@@ -80,9 +85,9 @@ Eigenvecs := Basis(Nullspace(B));
 prec := 100;
 vf1 := Eigenvecs[1]*A121;
 vf2 := Eigenvecs[2]*A121;
-f1 := &+[vf1[i]*basis[i] : i in [1..6]];
+f1 := &+[vf1[i]*basis121[i] : i in [1..6]];
 f1 := qExpansion(f1, prec);
-f2 := &+[vf2[i]*basis[i] : i in [1..6]];
+f2 := &+[vf2[i]*basis121[i] : i in [1..6]];
 f2 := qExpansion(f2, prec);
 X := f1/f2;
 Y := (Parent(X).1 * Derivative(X)) / f2;
@@ -113,7 +118,7 @@ vars_cub := [];
 for i in [1..6] do
         for j in [1..6] do
 		for k in [1..6] do
-	                fijk := basis[i] * basis[j] * basis[k];
+	                fijk := basis121[i] * basis121[j] * basis121[k];
         	        varijk := P.i * P.j * P.k;
                 	if fijk notin basis_cub then
                         	Append(~basis_cub, fijk);
@@ -135,9 +140,31 @@ Ynum_var := &+[Ynum_coef[i] * vars_cub[i] : i in [1..Degree(Ynum_coef)]];
 Xmap := &+[vf1[i] * P.i : i in [1..6]] / &+[vf2[i] * P.i : i in [1..6]];
 Ymap := Ynum_var / (&+[vf2[i] * P.i : i in [1..6]])^3;
 Ymap := R!(RI!Numerator(Ymap)) / Denominator(Ymap);
+X121ToX0p := map<X121 -> X0p | [Xmap, Ymap, 1]>;
+
+
+// Map XD10 -> X121
+
+PK<x,y,z,u,v,w> := ProjectiveSpace(K,5);
+L := BaseRing(Parent(basisD10[1]));
+K<r11> := QuadraticField(-11);
+bol, KtoL := IsSubfield(K, L);
+LtoK := Inverse(KtoL);
+
+Mbasis := Matrix([[Coefficient(fi, i): i in [1..99]]: fi in basis121]);
+Mbasis := ChangeRing(Mbasis, L);
+MD10_not_reduced := Matrix([[Coefficient(fi,i): i in [1..99]] : fi in basisD10]);
+A := Solution(MD10_not_reduced, Mbasis);
+A :=  ChangeRing(A, K, LtoK);
+XD10nredK := ChangeRing(XD10nred, K);
+X121K := ChangeRing(X121, K);
+XD10K := ChangeRing(XD10, K);
+XD10nredToX121 := map<XD10nredK -> X121K | [&+[ri[i]*PK.i: i in [1..6]] : ri in Rows(A)]>;
+polys := [Evaluate(fi, [PK.1, PK.2, PK.3, PK.4, PK.5, PK.6]) : fi in DefiningPolynomials(XD10ToXD10nred)];
+XD10ToXD10nred := map<XD10K -> XD10nredK | polys>;
+XD10ToX121 := XD10ToXD10nred * XD10nredToX121;
 
 
 
-// test
 
-phi := map<X121 -> X0p| [Xmap, Ymap]>;
+

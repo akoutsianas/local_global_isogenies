@@ -39,16 +39,6 @@ X0p := HyperellipticCurve(t^6 - 4*t^4 + 4*t^3 + 8*t^2 - 12*t + 4);
 
 
 
-// The map X0(121) -> X0^+(121)
-Xmap := (x - z - 2*u)/(y - 2*u - v + 5*w);
-Ymap := (-x^3 + 5*x^2*z + 4*x^2*u - 15*x*y*u + 5*x^2*v + 4*x*y*v + 9*x*z*v - 15*x*u*v -
-    44*y*u*v - 21*x^2*w + 17*x*y*w + 93*x*z*w + 45*x*u*w - 187*y*u*w + 103*x*v*w
-    + 100*y*v*w + 392*z*v*w + 513*u*v*w + 1131*x*w^2 + 769*y*w^2 + 150*z*w^2 -
-    383*u*w^2 - 421*v*w^2 + 565*w^3)/(y - 2*u - v + 5*w)^3;
-X121ToX0p := map<X121 -> X0p | [Xmap, Ymap, 1]>;
-
-
-
 /* Models of XD10 */
 
 // Model of XD10 by Assaf's code
@@ -100,15 +90,17 @@ XD10 := Curve(P, ID10);
 
 
 
-// tests
+//////// Maps between models //////////
 
-K<r11> := QuadraticField(-11);
-X := X121_Galbraith;
-XK := ChangeRing(X, K);
-XDK := ChangeRing(XD10, K);
-for f in Polynomials(XK) do
-	g := Evaluate(f, [r11*XK.1, r11*XK.2, r11*XK.3, XK.4, XK.5, r11*XK.6]);
-	print g;
-end for;
-//phi := map<XK -> XDK | [r11*XK.1, r11*XK.2, r11*XK.3, XK.4, XK.5, r11*XK.6]>;
-phi := map<X121 -> X0p | [Xmap, Ymap, 1]>;
+
+// The map X0(121) -> X0^+(121)
+Xmap := (x - z - 2*u)/(y - 2*u - v + 5*w);
+Ymap := (-x^3 + 5*x^2*z + 4*x^2*u - 15*x*y*u + 5*x^2*v + 4*x*y*v + 9*x*z*v - 15*x*u*v -
+    44*y*u*v - 21*x^2*w + 17*x*y*w + 93*x*z*w + 45*x*u*w - 187*y*u*w + 103*x*v*w
+    + 100*y*v*w + 392*z*v*w + 513*u*v*w + 1131*x*w^2 + 769*y*w^2 + 150*z*w^2 -
+    383*u*w^2 - 421*v*w^2 + 565*w^3)/(y - 2*u - v + 5*w)^3;
+X121ToX0p := map<X121 -> X0p | [Xmap, Ymap, 1]>;
+
+
+
+
