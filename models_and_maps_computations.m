@@ -15,36 +15,41 @@ XD10nred<[x]>, basisD10 := ModularCurve(H);
 
 
 // Reduced equation for XD10
-I := [u*w - 2*v*w + 2*u*x - 6*v*x + 2*u*y + 2*v*y + u*z,
+ID10 := [u*w - 2*v*w + 2*u*x - 6*v*x + 2*u*y + 2*v*y + u*z,
 u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 - 6*u^2 + 6*u*v - 3*v^2 + 11*w^2 - 66*w*x + 11*x^2 + 88*w*y  - 110*x*y + 99*y^2 + 44*w*z - 110*x*z,
 6*u^2 + 12*u*v + 12*v^2 + 187*w*x + 22*x^2 + 55*w*y - 44*x*y - 154*y^2 + 66*w*z + 77*x*z  + 121*y*z,
 - 9*v^2 + 88*w^2- 11*w*x -99*x^2 - 77*w*y + 110*x*y - 11*y^2 + 77*w*z - 297*x*z  + 121*y*z,
 - 6*u^2 - 12*u*v - 12*v^2 + 33*w^2 - 77*w*x + 66*x^2 - 121*w*y - 132*x*y - 110*y^2 - 44*w*z - 187*x*z + 121*y*z  + 121*z^2];
-XD10 := Curve(P, I);
+XD10 := Curve(P, ID10);
 isom, XD10ToXD10nred := IsIsomorphic(XD10, XD10nred);
+isom, XD10nredToXD10 := IsIsomorphic(XD10nred, XD10);
 // assert isom;
 
 
 
+// Equations for the modular curve X0(121)
+
+//P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
+N := 121;
+M := ModularForms(Gamma0(N), 2);
+S := CuspidalSubspace(M);
+basis121 := Basis(S);
+
+
 
 // Equation for modular curve X0(121) by Galbraith's thesis
-I := [u*w - 2*v*w + 2*u*x - 6*v*x + 2*u*y + 2*v*y + u*z,
+I121Gal := [u*w - 2*v*w + 2*u*x - 6*v*x + 2*u*y + 2*v*y + u*z,
 u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 -6*u^2 + 6*u*v - 3*v^2 - w^2 + 6*w*x - x^2 - 8*w*y + 10*x*y - 9*y^2 - 4*w*z + 10*x*z,
 6*u^2 + 12*u*v + 12*v^2 - 17*w*x - 2*x^2 - 5*w*y + 4*x*y + 14*y^2 - 6*w*z - 7*x*z - 11*y*z,
 -9*v^2 - 8*w^2 + w*x + 9*x^2 + 7*w*y - 10*x*y + y^2 - 7*w*z + 27*x*z - 11*y*z,
 -6*u^2 - 12*u*v - 12*v^2 - 3*w^2 + 7*w*x - 6*x^2 + 11*w*y + 12*x*y + 10*y^2 + 4*w*z + 17*x*z - 11*y*z - 11*z^2];
-X121_Galbraith := Curve(P, I);
+X121Gal := Curve(P, I121Gal);
 
 
 
 // Equation for X0(121) using Basis function
-P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
-N := 121;
-M := ModularForms(Gamma0(N), 2);
-S := CuspidalSubspace(M);
-basis121 := Basis(S);
 prec := 100;
 basis_sq := [];
 vars_sq := [];
@@ -72,7 +77,7 @@ for v in Basis(Nullspace(W)) do
 	Append(~I, poly);
 end for;
 X121 := Curve(P, I);
-// isom, X121toX121_Galbraith := IsIsomorphic(X121, X121_Galbraith);
+// isom, X121toX121Gal := IsIsomorphic(X121, X121Gal);
 // assert isom;
 
 
@@ -153,18 +158,68 @@ LtoK := Inverse(KtoL);
 
 Mbasis := Matrix([[Coefficient(fi, i): i in [1..99]]: fi in basis121]);
 Mbasis := ChangeRing(Mbasis, L);
-MD10_not_reduced := Matrix([[Coefficient(fi,i): i in [1..99]] : fi in basisD10]);
-A := Solution(MD10_not_reduced, Mbasis);
+MD10nred := Matrix([[Coefficient(fi,i): i in [1..99]] : fi in basisD10]);
+A := Solution(MD10nred, Mbasis);
 A :=  ChangeRing(A, K, LtoK);
 XD10nredK := ChangeRing(XD10nred, K);
 X121K := ChangeRing(X121, K);
 XD10K := ChangeRing(XD10, K);
+X121GalK := ChangeRing(X121Gal, K);
 XD10nredToX121 := map<XD10nredK -> X121K | [&+[ri[i]*PK.i: i in [1..6]] : ri in Rows(A)]>;
 polys := [Evaluate(fi, [PK.1, PK.2, PK.3, PK.4, PK.5, PK.6]) : fi in DefiningPolynomials(XD10ToXD10nred)];
 XD10ToXD10nred := map<XD10K -> XD10nredK | polys>;
-XD10ToX121 := XD10ToXD10nred * XD10nredToX121;
+// XD10ToX121 := XD10ToXD10nred * XD10nredToX121;
+XD10ToX121 := map<XD10K -> X121K | DefiningPolynomials(XD10ToXD10nred * XD10nredToX121)>;
+
+
+// Map X121 -> XD10
+B := Solution(Mbasis, MD10nred);
+B :=  ChangeRing(B, K, LtoK);
+X121ToXD10nred := map<X121K -> XD10nredK | [&+[ri[i]*PK.i: i in [1..6]] : ri in Rows(B)]>;
+polys := [Evaluate(fi, [PK.1, PK.2, PK.3, PK.4, PK.5, PK.6]) : fi in DefiningPolynomials(XD10nredToXD10)];
+XD10nredToXD10 := map<XD10nredK -> XD10K | polys>;
+//X121ToXD10 := X121ToXD10nred * XD10nredToXD10;
+X121ToXD10 := map<X121K -> XD10K | DefiningPolynomials(X121ToXD10nred * XD10nredToXD10)>;
+
+
+// Find the basis of cusp forms of X121Gal
+R<x,y,z,u,v,w> := PolynomialRing(Rationals(), 6);
+RK<x,y,z,u,v,w> := PolynomialRing(K, 6);
+XD10ToX121Gal := map<XD10K -> X121GalK | [r11*PK.1, r11*PK.2, r11*PK.3, PK.4, PK.5, r11*PK.6]>;
+X121GalToXD10 := map<X121GalK -> XD10K | [PK.1, PK.2, PK.3, r11*PK.4, r11*PK.5, PK.6]>;
+X121GalToX121 := X121GalToXD10 * XD10ToX121;
+X121GalToX121 := map<X121Gal -> X121 | [R!(f/r11) : f in DefiningPolynomials(X121GalToX121)]>;
+X121ToX121Gal := X121ToXD10 * XD10ToX121Gal;
+polys := [R!f : f in DefiningPolynomials(X121ToX121Gal)];
+X121ToX121Gal := map< X121 -> X121Gal | polys>;
+LS := PowerSeriesRing(Rationals());
+basis121exp := [(LS!qExpansion(f, prec)) : f in basis121];
+basis121Galexp := [(LS!Evaluate(f, basis121exp)) : f in polys];
+Mbasis := Matrix(Rationals(),[[Coefficient(fi, i): i in [1..90]]: fi in basis121exp]);
+MGalbasis := Matrix(Rationals(), [[Coefficient(fi, i): i in [1..90]]: fi in basis121Galexp]);
+Solution(Mbasis, MGalbasis);
+
+
+polys := [RK!f : f in DefiningPolynomials(X121ToXD10)];
+LSK :=  PowerSeriesRing(K);
+basis121exp := [(LSK!qExpansion(f, prec)) : f in basis121];
+basisD10exp := [(LSK!Evaluate(f, basis121exp)) : f in polys];
+Mbasis := Matrix(K,[[Coefficient(fi, i): i in [1..90]]: fi in basis121exp]);
+MD10basis := Matrix(K, [[Coefficient(fi, i): i in [1..90]]: fi in basisD10exp]);
+Solution(Mbasis, MD10basis);
 
 
 
 
-
+for i1,i2,i3,i4,i5,i6 in [1,r11] do
+	I121new := [Evaluate(f, [i1*PK.1, i2*PK.2, i3*PK.3, i4*PK.4, i5*PK.5, i6*PK.6]) : f in I121];
+	for f in I121new do
+		try
+			w := R!f;
+		catch e
+			//print "No element in R";
+			break;
+		end try;
+		print "Success";
+	end for; 
+end for;
