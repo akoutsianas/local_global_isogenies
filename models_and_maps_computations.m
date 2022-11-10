@@ -197,7 +197,22 @@ basis121exp := [(LS!qExpansion(f, prec)) : f in basis121];
 basis121Galexp := [(LS!Evaluate(f, basis121exp)) : f in polys];
 Mbasis := Matrix(Rationals(),[[Coefficient(fi, i): i in [1..90]]: fi in basis121exp]);
 MGalbasis := Matrix(Rationals(), [[Coefficient(fi, i): i in [1..90]]: fi in basis121Galexp]);
-Solution(Mbasis, MGalbasis);
+// Solution(Mbasis, MGalbasis);
+
+
+
+// Equation for X121Gal^+
+// Compute action of Atkin-Lehner involution on X121GAl
+vAGalexp := [&+[r[i] * basis121exp[i]: i in [1..6]] : r in Rows(A121)];
+A121Galexp := [Evaluate(f, vAGalexp) : f in polys];
+A121Galexp := Matrix(Rationals(), [[Coefficient(fi, i) : i in [1..90]] : fi in A121Galexp]); 
+A121Gal := Solution(MGalbasis, A121Galexp);
+B := A121Gal - Id;
+Eigenvecs :=  Basis(Nullspace(B));
+phi := iso<X121Gal -> X121Gal | [-P.1, -P.2, -P.3, P.4, P.5, -P.6],[-P.1, -P.2, -P.3, P.4, P.5, -P.6]>;
+G := AutomorphismGroup(X121Gal,[phi]);
+C, X121GalToC := CurveQuotient(G);
+
 
 
 polys := [RK!f : f in DefiningPolynomials(X121ToXD10)];

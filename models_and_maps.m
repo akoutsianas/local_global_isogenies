@@ -14,6 +14,12 @@ u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 -9*v^2 - 8*w^2 + w*x + 9*x^2 + 7*w*y - 10*x*y + y^2 - 7*w*z + 27*x*z - 11*y*z,
 -6*u^2 - 12*u*v - 12*v^2 - 3*w^2 + 7*w*x - 6*x^2 + 11*w*y + 12*x*y + 10*y^2 + 4*w*z + 17*x*z - 11*y*z - 11*z^2];
 X121Gal := Curve(P, I121Gal);
+phi := iso<X121Gal -> X121Gal | [-P.1, -P.2, -P.3, P.4, P.5, -P.6],[-P.1, -P.2, -P.3, P.4, P.5, -P.6]>;
+G := AutomorphismGroup(X121Gal,[phi]);
+C, X121ToC := CurveQuotient(G);
+JC := Jacobian(C);
+CQQ := [C![1, -3, 1], C![1, -1, 1], C![0, -1, 1], C![0, 0, 1], C![1, -1, 0], C![1, 0 , 0]];
+
 
 
 // Model of X0(121) using Basis function
@@ -86,9 +92,14 @@ u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 - 9*v^2 + 88*w^2- 11*w*x -99*x^2 - 77*w*y + 110*x*y - 11*y^2 + 77*w*z - 297*x*z  + 121*y*z,
 - 6*u^2 - 12*u*v - 12*v^2 + 33*w^2 - 77*w*x + 66*x^2 - 121*w*y - 132*x*y - 110*y^2 - 44*w*z - 187*x*z + 121*y*z  + 121*z^2];
 XD10 := Curve(P, ID10);
+phi := iso<XD10 -> XD10 | [-P.1, -P.2, -P.3, P.4, P.5, -P.6],[-P.1, -P.2, -P.3, P.4, P.5, -P.6]>;
+G := AutomorphismGroup(XD10,[phi]);
+CD10, XD10ToC := CurveQuotient(G);
 
 
 
+
+// We do not need the lines below
 
 //////// Maps between models //////////
 
