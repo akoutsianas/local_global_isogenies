@@ -26,9 +26,15 @@ K<r11> := QuadraticField(-11);
 CK := BaseChange(C, K);
 JK := Jacobian(CK);
 _<s> := PolynomialRing(K);
-Csim, CQQToCsim := SimplifiedModel(C);
+Csim, CToCsim := SimplifiedModel(C);
 Jsim := Jacobian(Csim);
-KSQ := KummerSurface(Jsim);
+G2 := CK![1,0,0] - CK![1,-1,0];
+G3 := JK![s^2 + s + 1, (-r11 - 1)/2];
+
+CsimK := BaseChange(Csim, K);
+JsimK := Jacobian(CsimK);
+G2sim := CsimK!(CToCsim(C![1,0,0])) - CsimK!(CToCsim(C![1,-1,0]));
+G3sim := JsimK![s^2 + s + 1, -r11];
 
 
 
@@ -110,13 +116,17 @@ end function;
 pts := LiftPointsJ(JK, 7);
 
 
+// Prove that the rank of JD10 over K is 2
 
-R := CoordinateRing(P); 
-D1a := Divisor(SD10, Ideal([R.1*R.6 - R.6^2, R.2*R.6 - R.6^2, R.3*R.6 - R.6^2, R.4^2 + 11*R.6^2, R.5^2 + 11*R.6^2])); 
-D1b := Divisor(SD10, Ideal([R.1*R.6 + 1/3*R.6^2, R.2*R.6, R.3*R.6 + 1/3*R.6^2, R.4^2 - 22/9*R.6^2, R.5^2 - 22/9*R.6^2])); 
-D1 := D1a - D1b;
 
-D2a := Divisor(SD10, Ideal([R.1*R.6 + 2/5*R.6^2, R.2*R.6 - 2/5*R.6^2, R.3*R.6 - 1/5*R.6^2, R.4^2 - 209/25*R.6^2, R.5^2 - 209/25*R.6^2])); 
-D2b := Divisor(SD10, Ideal([R.1*R.6 + R.6^2, R.2*R.6 - 7*R.6^2, R.3*R.6 - 5*R.6^2, R.4^2 - 473*R.6^2, R.5^2 - 473*R.6^2])); 
-D2 := D2a - D2b;
-D := D2 - D1;
+
+// Finite index subgroup of the JD10(Q)
+
+
+R := CoordinateRing(P);
+D1a := Divisor(SD10, Ideal([R.1*R.6 + R.6^2, R.2*R.6 - 7*R.6^2, R.3*R.6 - 5*R.6^2, R.4^2 - 473*R.6^2, R.5^2 - 473*R.6^2]));
+Dinf := Divisor(SD10, Ideal([R.1*R.6 + 1/3*R.6^2, R.2*R.6, R.3*R.6 + 1/3*R.6^2, R.4^2 - 22/9*R.6^2, R.5^2 - 22/9*R.6^2]));
+D1 := D1a - Dinf;
+
+D2a := Divisor(SD10, Ideal([R.1*R.6 - R.6^2, R.2*R.6 - R.6^2, R.3*R.6 - R.6^2, R.4^2 - 11*R.6^2, R.5^2 - 11*R.6^2]));
+D2 := D2a - Dinf;
