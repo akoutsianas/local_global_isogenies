@@ -5,8 +5,8 @@ Below you can find a description of the computations regarding the paper *`Local
 **Section 2 - Models and maps computations**
  - models_and_maps_computations.m
 
-**Section 3 - Morder-Weil group**
-- mordell_weil.m
+**Section 3 for C and Proposition 1**
+- mordell_weil_quotient.m
 
 **Section 6 - Symmetric Chabauty and Mordell-Weil sieve**
 - summetric_chabauty.m
