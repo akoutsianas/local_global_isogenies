@@ -63,3 +63,55 @@ XpD10, XD10ToXpD10 := CurveQuotient(AutomorphismGroup(XD10, [w11]));
 
 assert XpD10 eq Xp121;
 
+// XpD10 is not given in a short weierstrass model. We determine one below //
+_<t> := PolynomialRing(Rationals());
+C := HyperellipticCurve(t^6 - 6*t^5 + 11*t^4 - 8*t^3 + 11*t^2 - 6*t + 1);
+bol, XpD10ToC := IsIsomorphic(XpD10, C);
+assert bol;
+
+
+// Pullbacks of points // 
+phiXD10 := XD10ToXpD10 * XpD10ToC;
+
+// The case of P1 and P2 //
+K<r77> := QuadraticField(77);
+pts := Points(Pullback(phiXD10, C![1, 2]), K);
+P1 := pts[1];
+print P1;
+print phi(P1);
+
+P2 := pts[3];
+print P2;
+print phi(P2);
+
+// The case P3 //
+K<r11> := QuadraticField(-11);
+pts := Points(Pullback(phiXD10, C![1, 1, 0]), K);
+P3 := pts[1];
+print P3;
+print phi(P3);
+
+// The case P4 //
+K<r22> := QuadraticField(22);
+pts := Points(Pullback(phiXD10, C![1, -1, 0]), K);
+P4 := pts[1];
+print P4;
+print phi(P4);
+
+
+// The case P5 //
+K<r209> := QuadraticField(209);
+pts := Points(Pullback(phiXD10, C![0, 1]), K);
+P5 := pts[1];
+print P5;
+print phi(P5);
+
+
+// The case P6 //
+K<r473> := QuadraticField(473);
+pts := Points(Pullback(phiXD10, C![0, -1]), K);
+P6 := pts[1];
+print P6;
+print phi(P6);
+
+
