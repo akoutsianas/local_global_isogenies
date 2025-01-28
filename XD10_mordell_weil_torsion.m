@@ -44,4 +44,4 @@ assert bound_order eq 25;
 
 //  We check that the case C25 can not happen //
 invs := TorsionInvariants(Gs[1]);
-assert inv in invs | (inv mod 25) eq 0] eq 0;
+assert #[inv in invs | (inv mod 25) eq 0] eq 0;
