@@ -13,13 +13,13 @@ We give a short overview of the files in our repository:
 
 - **XD10_mordell_weil_torsion.m** (Section 4 of the paper) In this file we determine a finite index subgroup of the Mordell-Weil group of the Jacobian of $X_{D_{10}} (11)$.
 
-- **models_and_maps_computations.m** (Section 3 of the paper)  We compute a model for $X_{D_{10}}(11)$ using Assaf's code and show that it is isomorphic to a simpler model. We furthermore compute the Atkin-Lehner involutions $w_{11}$, $w_{121}$ and the quotient maps to $X_0^+(121)$ and $X^+_{D_{10}}(11)$. 
+- **models_and_maps_computations.m** (Section 3 of the paper)  We compute a model for $X_{D_{10}}(11)$ using Assaf's code and show that it is isomorphic to a simpler model. We furthermore compute the Atkin-Lehner involutions $w_{11}$, $w_{121}$ and the quotient maps to $X_0^+(121)$ and $X_{D_{10}}^+(11)$. 
 
-- **mordell_weil_quotient.m** (Section 4 of the paper) In this file we compute the Mordell-Weil group and the rational points on $X^+_{D_{10}}(11)$.
+- **mordell_weil_quotient.m** (Section 4 of the paper) In this file we compute the Mordell-Weil group and the rational points on $X_{D_{10}}^+(11)$.
 
 - **symmetric_chabauty.m** This file contains an implementation of the relative symmetric Chabauty method and the Mordell-Weil sieve for the curve $X_{D_{10}}(11)$.
 
-- **symmetric_chabauty_computations.m** (Section 7 of the paper) In this file we combine everything and apply the relative symmetric Chabauty method  implemented in symmetric_chabauty.m and the Mordell-Weil sieve to $X_{D_{10}}(11)$.
+- **symmetric_chabauty_computations.m** (Section 7 of the paper) In this file we combine everything and apply the relative symmetric Chabauty method  implemented in **symmetric_chabauty.m** and the Mordell-Weil sieve to $X_{D_{10}}(11)$.
 
 All of our computations were done on a machine running Ubuntu 22.04.1 with an Intel i7-7700 processor, 4 cores @ 3.60GHz, 32GB RAM.
 
