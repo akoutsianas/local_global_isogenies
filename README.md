@@ -54,8 +54,8 @@ After this you can run the file by either using:
 ```
 iload "models_and_maps_computations.m";
 ```
-or copying the contents of the file line by line if you are only interested in parts of the computation.
-
+or copying the contents of the file line by line if you are only interested in parts of the computation. The computations took a few hours on our system. The parts that take the longest are computing the isomorphism between our models of $X_{D_{10}}(11)$ and computing the automorphism group of $X_0(121)$
+.
 ### Section 4 of the paper
 Computing the Torsion part is done by going to the **local_global_isogenies** folder, starting Magma and by calling for example:
 ```
