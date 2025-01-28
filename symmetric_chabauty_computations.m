@@ -50,6 +50,6 @@ Gens := SetToSequence({D1a, D2a});
 
 
 //// Apply Symmetric Chabauty and Mordel-Weil Sieve ////
-primes := PointsLieOnSingleResidueClass(XD10, S, [5, 7, 13, 17]);
+primes := PointsLieOnSingleResidueClass(XD10, S, [5, 7, 13, 17, 19, 23]);
 print primes;
 MordellWeilSieve(XD10, Gens, [5, 0], S, primes, 10);
