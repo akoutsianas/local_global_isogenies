@@ -1,6 +1,6 @@
-/////// We compute the Mordell-Weil group and the rational points on XpD10 ///////
+/////// We compute the Mordell-Weil group and the rational points on X+D10(11) ///////
 
-
+// We take the equation we computed for X+D10(11) in models_and_maps_computations.m
 R<x> := PolynomialRing(Rationals());
 C := HyperellipticCurve(x^6 - 6*x^5 + 11*x^4 - 8*x^3 + 11*x^2 - 6*x + 1);
 J := Jacobian(C);
@@ -20,7 +20,7 @@ assert Order(JtoG(C![0, -1] - C![1, -1, 0])) eq 5;
 assert JtoG(C![1, 1, 0] - C![1, -1, 0]) eq G.2;
 
 
-// Compute the rational points of XpD10 using the Chabauty method //
+// Compute the rational points of X+D10(11) using the Chabauty method //
 
 ptsChabauty := Chabauty(GtoJ(G.2));
 assert # ptsChabauty eq 6;
@@ -28,7 +28,7 @@ assert # ptsChabauty eq 6;
 
 
 //// Computations over K=Q(sqrt(-11)) ////
-// Attach Siksek's code AttachSpec(path_to_file/g2-jac.m) and the code Attach("path_to_file/add.m");
+// Attach Siksek's code AttachSpec(g2-jac.m) and the code Attach("add.m");
 
 K<r11> := NumberField(x^2 + 11);
 _<y> := PolynomialRing(K);

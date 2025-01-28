@@ -4,7 +4,7 @@
 P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
 
 
-////// Model of XD10 and the Atkin-Lehner invoslution //////
+////// Model of XD10 and the Atkin-Lehner involution //////
 
 ID10 := [u*w - 2*v*w + 2*u*x - 6*v*x + 2*u*y + 2*v*y + u*z,
 u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
@@ -36,7 +36,7 @@ D2 := D2a - Dinf;
 
 
 
-// The set the set L of points on XD10^(2)(Q)
+// The set L of points on XD10^(2)(Q)
 
 P1 := Divisor(XD10, Ideal([4*R.1*R.6 + 3*R.6^2, 4*R.2*R.6 - R.6^2, R.3*R.6, 4*R.4^2 - 77*R.6^2, R.5*R.6]));
 P2 := Divisor(XD10, Ideal([4*R.1*R.6 - 3*R.6^2, 4*R.2*R.6 + 5*R.6^2, R.3*R.6, 4*R.4^2 - 77*R.6^2, R.5*R.6]));

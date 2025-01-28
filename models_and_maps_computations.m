@@ -53,7 +53,7 @@ AutX121 := AutomorphismGroup(X121);
 assert Order(AutX121) eq 2;
 
 
-///// Equation for X0+(121) and XpD10 /////
+///// Equation for X0+(121) and X+D10(11) /////
 
 w11 := iso< X121 -> X121 | [-x, -y, -z, u, v, -w], [-x, -y, -z, u, v, -w]>;
 Xp121, X121ToXp121 := CurveQuotient(AutomorphismGroup(X121, [w11]));
@@ -63,7 +63,7 @@ XpD10, XD10ToXpD10 := CurveQuotient(AutomorphismGroup(XD10, [w11]));
 
 assert XpD10 eq Xp121;
 
-// XpD10 is not given in a short weierstrass model. We determine one below //
+// X+D10(11) is not given in a short weierstrass model. We determine one below //
 _<t> := PolynomialRing(Rationals());
 C := HyperellipticCurve(t^6 - 6*t^5 + 11*t^4 - 8*t^3 + 11*t^2 - 6*t + 1);
 bol, XpD10ToC := IsIsomorphic(XpD10, C);
