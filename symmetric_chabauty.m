@@ -225,7 +225,7 @@ intrinsic MordellWeilSieve(X::Crv, Gens::SeqEnum, Gens_order::SeqEnum, sym_pts::
 		W := [pt@@GToquoHnew : pt in cosetsW meet cosetsWp];
 		H := Hnew;
 		printf "W: %o\n", #W;
-		printf "quoHnew: %o\n", quoHnew;
+		printf "quoHnew: %o\n\n", quoHnew;
 		if #W eq 0 then
 			return true;
 		end if;

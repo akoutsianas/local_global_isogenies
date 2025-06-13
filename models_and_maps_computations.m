@@ -1,6 +1,3 @@
-// Attach Assaf's code. Attach spec AttachSpec("path_to_folder/ModFrmGL2/ModFrmGL2/ModFrmGL2.spec");
-
-
 ///////////// Models Computations /////////////
 
 P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
@@ -29,8 +26,6 @@ XD10nred, basisD10 := ModularCurve(H);
 AssignNames(~XD10nred, ["x", "y", "z", "u", "v", "w"]);
 isom, XD10ToXD10nred := IsIsomorphic(XD10, XD10nred);
 assert isom;
-// isom, XD10nredToXD10 := IsIsomorphic(XD10nred, XD10);
-
 
 
 ///// Equation for modular curve X0(121) by Galbraith's thesis /////
@@ -42,15 +37,6 @@ u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 -6*u^2 - 12*u*v - 12*v^2 - 3*w^2 + 7*w*x - 6*x^2 + 11*w*y + 12*x*y + 10*y^2 + 4*w*z + 17*x*z - 11*y*z - 11*z^2];
 X121 := Curve(P, I121);
 
-
-//// Compute the Atkin-Lehner involution ////
-
-// Atkin-Lehner involution of X0(121) is defined over Q.
-// The automorphisms of X121 defined over Q is a group of order 2, hence the map [x, y, z, u, v, w] -> [-x, -y, -z, u, v, -w] is 
-// the Atkin-Lehner involution.
-
-AutX121 := AutomorphismGroup(X121);
-assert Order(AutX121) eq 2;
 
 
 ///// Equation for X0+(121) and X+D10(11) /////
@@ -78,40 +64,40 @@ K<r77> := QuadraticField(77);
 pts := Points(Pullback(phiXD10, C![1, 2]), K);
 P1 := pts[1];
 print P1;
-print phi(P1);
+print phiXD10(P1);
 
 P2 := pts[3];
 print P2;
-print phi(P2);
+print phiXD10(P2);
 
 // The case P3 //
 K<r11> := QuadraticField(-11);
-pts := Points(Pullback(phiXD10, C![1, 1, 0]), K);
+pts := Points(Pullback(phiXD10, C![1, -1, 0]), K);
 P3 := pts[1];
 print P3;
-print phi(P3);
+print phiXD10(P3);
 
 // The case P4 //
 K<r22> := QuadraticField(22);
-pts := Points(Pullback(phiXD10, C![1, -1, 0]), K);
+pts := Points(Pullback(phiXD10, C![1, 1, 0]), K);
 P4 := pts[1];
 print P4;
-print phi(P4);
+print phiXD10(P4);
 
 
 // The case P5 //
 K<r209> := QuadraticField(209);
-pts := Points(Pullback(phiXD10, C![0, 1]), K);
+pts := Points(Pullback(phiXD10, C![0, -1]), K);
 P5 := pts[1];
 print P5;
-print phi(P5);
+print phiXD10(P5);
 
 
 // The case P6 //
 K<r473> := QuadraticField(473);
-pts := Points(Pullback(phiXD10, C![0, -1]), K);
+pts := Points(Pullback(phiXD10, C![0, 1]), K);
 P6 := pts[1];
 print P6;
-print phi(P6);
+print phiXD10(P6);
 
 

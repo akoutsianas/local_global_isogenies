@@ -41,6 +41,7 @@ git clone https://github.com/assaferan/ModFrmGL2
 ```
 In the following we will assume that this was done in the same folder where the local_global_isogenies folder is located. After this perform the commands:
 ```
+cd ModFrmGL2
 git submodule init
 git submodule update
 ```

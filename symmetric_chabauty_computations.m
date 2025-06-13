@@ -1,5 +1,4 @@
-//////// Attach file "symmetric_chabauty.m" ////////
-
+////// Apply Symmetric Chabauty //////
 
 P<x,y,z,u,v,w> := ProjectiveSpace(Rationals(),5);
 
@@ -13,16 +12,6 @@ u*w + v*w + 2*u*x - 2*v*x + 2*u*y - 10*v*y - 5*u*z + 11*v*z,
 - 9*v^2 + 88*w^2- 11*w*x -99*x^2 - 77*w*y + 110*x*y - 11*y^2 + 77*w*z - 297*x*z  + 121*y*z,
 - 6*u^2 - 12*u*v - 12*v^2 + 33*w^2 - 77*w*x + 66*x^2 - 121*w*y - 132*x*y - 110*y^2 - 44*w*z - 187*x*z + 121*y*z  + 121*z^2];
 XD10 := Curve(P, ID10);
-// w11 := iso<XD10 -> XD10 | [-P.1, -P.2, -P.3, P.4, P.5, -P.6],[-P.1, -P.2, -P.3, P.4, P.5, -P.6]>;
-
-
-// G := AutomorphismGroup(XD10,[w11]);
-// C, XD10ToC := CurveQuotient(G);
-// CQQ := [C![1, -3, 1], C![1, -1, 1], C![0, -1, 1], C![0, 0, 1], C![1, -1, 0], C![1, 0 , 0]];
-// JC := Jacobian(C);
-// GJC, GJCToJC := MordellWeilGroup(JC);
-// JCToGJC := Inverse(GJCToJC);
-
 
 ////// Finite index subgroup of JD10(Q) //////
 

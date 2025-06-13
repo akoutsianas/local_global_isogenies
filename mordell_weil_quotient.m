@@ -28,7 +28,6 @@ assert # ptsChabauty eq 6;
 
 
 //// Computations over K=Q(sqrt(-11)) ////
-// Attach Siksek's code AttachSpec(g2-jac.m) and the code Attach("add.m");
 
 K<r11> := NumberField(x^2 + 11);
 _<y> := PolynomialRing(K);
